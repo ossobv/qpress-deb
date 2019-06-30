@@ -1,0 +1,23 @@
+This work was packaged for Debian by:
+
+    Ignacio Nin <ignacio.nin@percona.com> on Tue, 09 Jul 2013 17:53:28 -0400
+
+It was downloaded from:
+
+    http://www.quicklz.com/
+
+Upstream Author(s):
+
+    Lasse Reinhold <lar@quicklz.com>
+
+Copyright:
+
+    Lasse Reinhold 2006-2010
+
+License:
+
+    GPL
+
+The Debian packaging is:
+
+    Copyright (C) 2013 Ignacio Nin <ignacio.nin@percona.com>

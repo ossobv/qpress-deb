@@ -1,0 +1,16 @@
+#
+# (c) Ignacio Nin <ignacio.nin@percona.com> 2013, GPLv2
+# 
+# Include unistd.h in qpress.cpp, which uses isatty().
+#
+diff -Naur a/qpress.cpp b/qpress.cpp
+--- a/qpress.cpp	2010-09-23 16:09:26.000000000 -0300
++++ b/qpress.cpp	2013-07-09 18:05:27.230845411 -0300
+@@ -92,6 +92,7 @@
+ #include "aio.hpp"
+ #include <stdarg.h>
+ #include <string>
++#include <unistd.h>
+ #include "levels.c"
+ #include "utilities.hpp"
+ 

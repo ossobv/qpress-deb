@@ -1,0 +1,20 @@
+qpress (1.1-0osso0+deb9) stretch; urgency=low
+
+  * Create initial OSSO qpress deb based on percona distro (rename vesion 11
+    to 0.11 because we're dealing with 1.1).
+  * Automate using Docker.
+  * Add test.sh for really really basic tests.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Sun, 30 Jun 2019 22:59:45 +0200
+
+qpress (0.11-1.precise) precise; urgency=low
+
+  * Update distribution
+
+ -- Ignacio Nin <ignacio.nin@percona.com>  Fri, 12 Jul 2013 16:24:48 +0000
+
+qpress (0.11-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Ignacio Nin <ignacio.nin@percona.com>  Tue, 09 Jul 2013 17:53:28 -0400
