@@ -51,8 +51,9 @@ RUN upversion_uscore=$(echo $upversion | sed -e 's/~/_/g') && \
       md5sum -c
 RUN mkdir /tmp/qpress-${upversion} && cd /tmp/qpress-${upversion} && \
     unzip ../${upname}_${upversion}.orig.zip && \
-    touch -r "$(ls -t | head -n1)" . && \
-    tar -C /tmp --sort=name -cvf /build/qpress_${upversion}.orig.tar qpress-${upversion} && \
+    touch -r "$(ls -t | head -n1)" . && cd /tmp && \
+    find qpress-${upversion} | sort | \
+    xargs -d\\n tar --no-recursion -cvf /build/qpress_${upversion}.orig.tar && \
     gzip --no-name /build/qpress_${upversion}.orig.tar && \
     md5sum /build/${upname}_${upversion}.orig.tar.gz && \
     echo "e738fc53f098a00bb8e13ed10701fc45  /build/${upname}_${upversion}.orig.tar.gz" | \
