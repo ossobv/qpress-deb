@@ -1,14 +1,33 @@
-#!/bin/sh
+#!/bin/bash
 cd "$(dirname "$0")"  # jump to curdir
 
 # Pass these on the command line.
-osdistro=debian
-osdistshort=deb
-oscodename=${3:-stretch}    # stretch/jessie
+oscodename=${1:-debian/stretch}  # debian/stretch
 upname=qpress
-upversion=${1:-1.1}         # qpress version
-debversion=${2:-0osso1}     # deb build version, e.g. 0osso1
-echo "Usage: $0 1.1 0osso1 stretch" >&2
+upversion=${2:-1.1}         # qpress version
+debversion=${3:-0osso1}     # deb build version, e.g. 0osso1
+
+echo "Usage: $0 [debian/stretch [1.1 [0osso1]]]"
+echo ".. continuing"
+
+osdistro=${oscodename%/*}   # debian (or ubuntu)
+oscodename=${oscodename#*/} # stretch (or bionic)
+osdistshort=${osdistro:0:3} # deb (or ubu)
+echo "$osdistro/$oscodename ubuntu/bionic"
+case $osdistro/$oscodename in
+debian/stretch) oscodenum=9;;
+debian/jessie)  oscodenum=8;;
+debian/wheezy)  oscodenum=7;;
+ubuntu/bionic)  oscodenum=18.04;;
+ubuntu/xenial)  oscodenum=16.04;;
+ubuntu/trusty)  oscodenum=14.04;;
+*) oscodenum=0
+esac
+_shortver=$osdistshort$oscodenum
+
+# Update changelog
+sed -i -e "1s/+\\(deb\\|ubu\\)[0-9.]*) [a-z]\\+;/+$_shortver) $oscodename;/" \
+    changelog
 
 # Docker disallows certain tokens in versions.
 dockversion=$(echo build-${upname}-${upversion}-${debversion}-${oscodename} |
