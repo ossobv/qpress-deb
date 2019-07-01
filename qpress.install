@@ -1,1 +1,4 @@
 qpress usr/bin
+qlzip1 usr/bin
+qlunzip1 usr/bin
+qlzcat1 usr/bin

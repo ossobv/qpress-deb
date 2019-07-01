@@ -1,11 +1,16 @@
-qpress (1.1-0osso0+deb9) stretch; urgency=low
+qpress (1.1-0osso1+deb9) stretch; urgency=low
 
-  * Create initial OSSO qpress deb based on percona distro (rename vesion 11
-    to 0.11 because we're dealing with 1.1).
-  * Automate using Docker.
-  * Add test.sh for really really basic tests.
+  * Create initial OSSO qpress deb based on percona distro (rename version 11
+    in this changelog to 0.11 because we're dealing with 1.1; I hope we can
+    avoid adding a debian-epoch in the version).
+  * Automate builds using Docker.
+  * Add test.sh for really really basic tests after build (before packaging).
+  * Use the quicklz libraries 1.5.1 BETA 7 instead of 1.4.1 that came with the
+    original qpress.
+  * Add qlzip1/qlunzip1/qlzcat (quicklz zip, unzip and zcat) and test those.
+    Went with compression level 1, as that seems the most useful.
 
- -- Walter Doekes (work) <wjdoekes@osso.nl>  Sun, 30 Jun 2019 22:59:45 +0200
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 01 Jul 2019 14:18:32 +0200
 
 qpress (0.11-1.precise) precise; urgency=low
 

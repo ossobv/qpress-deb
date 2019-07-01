@@ -6,8 +6,8 @@ osdistro=debian
 osdistshort=deb
 oscodename=${3:-stretch}    # stretch/jessie
 upname=qpress
-upversion=${1:-1.1}          # qpress version
-debversion=${2:-0osso0}     # deb build version, e.g. 0osso1
+upversion=${1:-1.1}         # qpress version
+debversion=${2:-0osso1}     # deb build version, e.g. 0osso1
 echo "Usage: $0 1.1 0osso1 stretch" >&2
 
 # Docker disallows certain tokens in versions.

@@ -26,7 +26,7 @@ RUN apt-get update -q
 RUN apt-get install -y apt-utils
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y \
-    bzip2 ca-certificates curl git \
+    unzip ca-certificates curl git \
     build-essential dh-autoreconf devscripts dpkg-dev equivs quilt
 
 # Copy debian dir, check version
@@ -49,7 +49,6 @@ RUN upversion_uscore=$(echo $upversion | sed -e 's/~/_/g') && \
     md5sum /tmp/${upname}_${upversion}.orig.zip && \
     echo "ea2d8bc96e86e93f64a93bc546401c95  /tmp/${upname}_${upversion}.orig.zip" | \
       md5sum -c
-RUN apt-get install --no-install-recommends -y unzip
 RUN mkdir /tmp/qpress-${upversion} && cd /tmp/qpress-${upversion} && \
     unzip ../${upname}_${upversion}.orig.zip && \
     touch -r "$(ls -t | head -n1)" . && \
