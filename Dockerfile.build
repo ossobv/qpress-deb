@@ -13,7 +13,6 @@ echo ".. continuing"
 osdistro=${oscodename%/*}   # debian (or ubuntu)
 oscodename=${oscodename#*/} # stretch (or bionic)
 osdistshort=${osdistro:0:3} # deb (or ubu)
-echo "$osdistro/$oscodename ubuntu/bionic"
 case $osdistro/$oscodename in
 debian/stretch) oscodenum=9;;
 debian/jessie)  oscodenum=8;;
@@ -49,7 +48,7 @@ if ! docker build \
 then
     ret=$?
     echo "fail" >&2
-    exit $?
+    exit $ret
 fi
 
 # Copy files to ./Dockerfile.out
