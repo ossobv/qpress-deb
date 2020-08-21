@@ -1,10 +1,11 @@
 ARG osdistro=debian
-ARG oscodename=stretch
+ARG oscodename=buster
 
 FROM $osdistro:$oscodename
 LABEL maintainer="Walter Doekes <wjdoekes+qpress@osso.nl>"
+LABEL dockerfile-vcs=https://github.com/ossobv/qpress-deb
 
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
 # This time no "keeping the build small". We only use this container for
 # building/testing and not for running, so we can keep files like apt
@@ -21,20 +22,27 @@ RUN apt-get install -y \
     unzip ca-certificates curl git \
     build-essential dh-autoreconf devscripts dpkg-dev equivs quilt
 
-# # Get build env again, after the FROM, before the first usage
+# Get build env again, after the FROM, before the first usage
 ARG osdistro=debian
-ARG osdistshort=deb
-ARG oscodename=stretch
+ARG oscodename=buster
+ARG osdistver=deb10
+# qpress-11-source.zip is 1.1, has 1.4.1final lib (and we patch to 1.5.1~beta7)
 ARG upname=qpress
 ARG upversion=1.1
-ARG debepoch=
-ARG debversion=0osso1
+ARG debepoch=1:
+ARG debversion=0osso0+anydist
 
 # Copy debian dir, check version
 RUN mkdir -p /build/debian
 COPY changelog /build/debian/changelog
 RUN . /etc/os-release && \
-    fullversion="${upversion}-${debversion}+${osdistshort}${VERSION_ID}" && \
+    case $osdistver in \
+      anydist) oscodename=stable;; \
+      deb*) test $osdistver = deb${VERSION_ID};; \
+      ubu*) test $osdistver = ubu${VERSION_ID};; \
+      *) echo "Unknown distver $osdistver" >&2; false;; \
+    esac && \
+    fullversion="${upversion}-${debversion}+${osdistver}" && \
     expected="${upname} (${debepoch}${fullversion}) ${oscodename}; urgency=low" && \
     head -n1 /build/debian/changelog && \
     if test "$(head -n1 /build/debian/changelog)" != "${expected}"; \
@@ -53,11 +61,16 @@ RUN upversion_uscore=$(echo $upversion | sed -e 's/~/_/g') && \
 RUN mkdir /tmp/qpress-${upversion} && cd /tmp/qpress-${upversion} && \
     unzip ../${upname}_${upversion}.orig.zip && \
     touch -r "$(ls -t | head -n1)" . && cd /tmp && \
-    find qpress-${upversion} | sort | \
-    xargs -d\\n tar --no-recursion -cvf /build/qpress_${upversion}.orig.tar && \
+    find qpress-${upversion} -print0 | sort -z | tar \
+      --numeric-owner --owner=0 --group=0 \
+      --mtime='1970-01-01 00:00:00' --no-recursion --null --files-from - \
+      -cvf /build/qpress_${upversion}.orig.tar && \
+    md5sum /build/${upname}_${upversion}.orig.tar && \
+    echo "0ef3730f58680e12a8a9e2efa83aeb39  /build/${upname}_${upversion}.orig.tar" | \
+      md5sum -c && \
     gzip --no-name /build/qpress_${upversion}.orig.tar && \
     md5sum /build/${upname}_${upversion}.orig.tar.gz && \
-    echo "e738fc53f098a00bb8e13ed10701fc45  /build/${upname}_${upversion}.orig.tar.gz" | \
+    echo "7782b9ce60f8d0c052b0ec62d2c47a28  /build/${upname}_${upversion}.orig.tar.gz" | \
       md5sum -c
 RUN cd /build && tar zxf "${upname}_${upversion}.orig.tar.gz" && \
     mv debian "${upname}-${upversion}/"
@@ -77,9 +90,9 @@ RUN DEB_BUILD_OPTIONS=parallel=6 dpkg-buildpackage -us -uc -sa
 # - md5sum/hashes of the sources files..
 
 # Write output files (store build args in ENV first).
-ENV oscodename=$oscodename osdistshort=$osdistshort \
+ENV oscodename=$oscodename osdistver=$osdistver \
     upname=$upname upversion=$upversion debversion=$debversion
-RUN . /etc/os-release && fullversion=${upversion}-${debversion}+${osdistshort}${VERSION_ID} && \
+RUN fullversion=${upversion}-${debversion}+${osdistver} && \
     mkdir -p /dist/${upname}_${fullversion} && \
     mv /build/*${fullversion}* /dist/${upname}_${fullversion}/ && \
     mv /build/${upname}_${upversion}.orig.tar.gz /dist/${upname}_${fullversion}/ && \

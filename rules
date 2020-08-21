@@ -3,9 +3,19 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+# Do a static build for C++, that way we'll only do:
+# Depends: libc6 (>= 2.14)  [see: dpkg-shlibdeps -v -v DESTDIR/qpress]
+export CXXFLAGS += -static
+
 %:
 	dh $@ 
 
 override_dh_auto_test:
 	dh_auto_test
 	cd debian && ./test.sh
+
+override_dh_builddeb:
+	# Compress .deb destination files with gzip instead of xz for
+	# compatibility with older Debian releases. See also
+	# debian/source/options for the source package.
+	dh_builddeb -- -Zgzip

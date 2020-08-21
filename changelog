@@ -1,3 +1,15 @@
+qpress (1:1.1-0osso0+anydist) stable; urgency=low
+
+  * Add epoch, because MariaDB version is already at 11, while we are using
+    1.1.
+  * Create version that should work on any distro (using +anydist instead of
+    +deb10 (for buster)).
+  * Build qpress (c++) with -static, so the resultant package depends only on
+    libc6 >= 2.14.
+  * Build gzipped .deb for maximum compatibility with older debian/ubuntu.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 21 Aug 2020 11:59:41 +0200
+
 qpress (1.1-0osso1+deb9) stretch; urgency=low
 
   * Create initial OSSO qpress deb based on percona distro (rename version 11

@@ -12,6 +12,17 @@ qpress is not a problem.)
 
 Updating levels.c was a bit of a pain.
 
+--- a/qpress.cpp.orig	2020-08-21 09:31:37.651457980 +0000
++++ b/qpress.cpp	2020-08-21 09:31:57.111572719 +0000
+@@ -407,7 +407,7 @@ void print_usage()
+     "files will be concatenated in a continuous stream.\n\n"
+     "It's recommended to use .qp as filename suffix.\n";
+     PRINT(FATAL_ERROR, "qpress 1.1 - Copyright 2006-2010 Lasse Reinhold - www.quicklz.com\n");
+-    PRINT(FATAL_ERROR, "Using QuickLZ 1.4.1 compression library\n");
++    PRINT(FATAL_ERROR, "Using QuickLZ 1.5.1 BETA 7 compression library\n");
+  
+ 	PRINT(FATAL_ERROR, "Compiled for: ");
+ 	#ifdef WINDOWS
 --- a/levels.c	2019-06-30 23:32:53.564889101 +0200
 +++ b/levels.c	2019-07-01 00:30:03.171428237 +0200
 @@ -16,187 +16,259 @@ Very dirty method to offer runtime selec
