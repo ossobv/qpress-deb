@@ -1,22 +1,47 @@
 qpress-deb :: OSSO build of qpress for Debian/Ubuntu
 ====================================================
 
+*Wondering what files with the .qz1 extension do?*
+
+Those are single stream *QuickLZ level 1* compressed files.
+
+*What is qpress?*
+
+*qpress*, *qlzip1* and *qlzcat1* do *QuickLZ* compression/decompression.
+*qpress* works on ``.qp`` archives with multiple files. *qlzip1* and
+*qlzcat1* work on streams of *QuickLZ level 1* compressed data. For
+those, ``.qz1`` is the preferred extension.
+
+The original source code is here:
+`qpress_1.1.orig.tar.gz <https://github.com/ossobv/qpress-deb/releases/download/vE1-1.1-0osso0/qpress_1.1.orig.tar.gz>`_
+
+A pre-built *Debian/Ubuntu* package with patches is here:
+`qpress_1.1-0osso0+anydist_amd64.deb <https://github.com/ossobv/qpress-deb/releases/download/vE1-1.1-0osso0/qpress_1.1-0osso0+anydist_amd64.deb>`_
+
+
+--------
+Building
+--------
+
 Usage::
 
     ./Dockerfile.buildmany
 
-Will build Debian/Ubuntu packages of ``qpress`` and
+Builds *Debian/Ubuntu* packages of ``qpress`` and
 ``qlzcat1/qlunzip1/qlzip1`` for a few distributions.
 
 Includes:
 
-* qpress-1.1 as ``qpress``;
-* the updated quicklz.h and quicklz.c, version 1.5.1 BETA 7 (October 2011);
+* *qpress-1.1* as ``qpress``;
+* the updated ``quicklz.h`` and ``quicklz.c``, version 1.5.1 BETA 7
+  (October 2011);
 * ``qlzip1``, ``qlunzip1``, ``qlzcat1`` that behave like ``gzip``,
   ``gunzip`` and ``zcat``, but use level 1 QuickLZ compression.
 
 Homepage: http://www.quicklz.com/
 
+
+----------
 Speed/size
 ----------
 
